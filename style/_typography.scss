@@ -1,0 +1,136 @@
+@use 'sass:map';
+
+@mixin get-type-from-hierarchy($hierarchy, $isDense: false) {
+  font-size: map.get($font-size-hierarchy, $hierarchy);
+
+  @if $isDense {
+    line-height: map.get($line-height-dense-hierarchy, $hierarchy);
+  } @else {
+    line-height: map.get($line-height-hierarchy, $hierarchy);
+  }
+}
+
+@mixin get-type-from-role($role-name, $device-scale: 'lg', $isDense: false) {
+  $type-prop-map: map.get($role, $role-name);
+  $hierarchy: map.get($type-prop-map, $device-scale);
+
+  font-size: map.get($font-size-hierarchy, $hierarchy);
+
+  @if $isDense {
+    line-height: map.get($line-height-dense-hierarchy, $hierarchy);
+  } @else {
+    line-height: map.get($line-height-hierarchy, $hierarchy);
+  }
+}
+
+$font-size-hierarchy: (
+  -4: 0.5625rem,
+  -3: 0.625rem,
+  -2: 0.6875rem,
+  -1: 0.75rem,
+  0: 0.875rem,
+  1: 1rem,
+  2: 1.125rem,
+  3: 1.25rem,
+  4: 1.375rem,
+  5: 1.5625rem,
+  6: 1.75rem,
+  7: 2rem,
+  8: 2.25rem,
+  9: 2.5rem,
+  10: 2.8125rem,
+  11: 3.1875rem,
+  12: 3.625rem,
+  13: 4.0625rem,
+  14: 4.5625rem,
+  15: 5.125rem,
+  16: 5.75rem
+);
+$line-height-hierarchy: (
+  -4: 1rem,
+  -3: 1.125rem,
+  -2: 1.25rem,
+  -1: 1.375rem,
+  0: 1.625rem,
+  1: 1.75rem,
+  2: 2rem,
+  3: 2.25rem,
+  4: 2.5rem,
+  5: 2.875rem,
+  6: 3.125rem,
+  7: 3.625rem,
+  8: 4rem,
+  9: 4.5rem,
+  10: 5.125rem,
+  11: 5.75rem,
+  12: 6.5rem,
+  13: 7.375rem,
+  14: 8.25rem,
+  15: 9.25rem,
+  16: 10.375rem
+);
+$line-height-dense-hierarchy: (
+  -4: 0.875rem,
+  -3: 1rem,
+  -2: 1rem,
+  -1: 1.125rem,
+  0: 1.375rem,
+  1: 1.5rem,
+  2: 1.625rem,
+  3: 1.75rem,
+  4: 2rem,
+  5: 2.25rem,
+  6: 2.375rem,
+  7: 2.75rem,
+  8: 3rem,
+  9: 3.375rem,
+  10: 3.75rem,
+  11: 4.125rem,
+  12: 4.625rem,
+  13: 5.125rem,
+  14: 5.625rem,
+  15: 6.25rem,
+  16: 6.875rem
+);
+$role: (
+  'label': (
+    'sm': 0,
+    'lg': 0,
+  ),
+  'body-sm': (
+    'sm': 0,
+    'lg': 1,
+  ),
+  'body': (
+    'sm': 1,
+    'lg': 2,
+  ),
+  'body-lg': (
+    'sm': 2,
+    'lg': 3,
+  ),
+  'heading-6': (
+    'sm': 3,
+    'lg': 5,
+  ),
+  'heading-5': (
+    'sm': 4,
+    'lg': 7,
+  ),
+  'heading-4': (
+    'sm': 5,
+    'lg': 9,
+  ),
+  'heading-3': (
+    'sm': 6,
+    'lg': 11,
+  ),
+  'heading-2': (
+    'sm': 7,
+    'lg': 13,
+  ),
+  'heading-1': (
+    'sm': 8,
+    'lg': 15,
+  ),
+);

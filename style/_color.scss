@@ -1,0 +1,286 @@
+@use 'sass:map';
+
+@function l-c-ramp(
+  $luminance,
+  $chroma-max: 0.11,
+  $luminance-at-chroma-max: 50
+) {
+  @if $luminance <= $luminance-at-chroma-max {
+    @return $chroma-max * calc($luminance / $luminance-at-chroma-max);
+  } @else {
+    @return $chroma-max *
+      calc((100 - $luminance) / (100 - $luminance-at-chroma-max));
+  }
+}
+
+@function create-color(
+  $luminance,
+  $hue,
+  $chroma-max,
+  $luminance-at-chroma-max,
+  $opacity: 1
+) {
+  $chroma: l-c-ramp($luminance, $chroma-max, $luminance-at-chroma-max);
+  $color: oklch($luminance * 1% $chroma $hue / #{$opacity});
+
+  @return $color;
+}
+
+@function get-color-from-palette($palette-name, $luminance, $opacity: 1) {
+  $palette-props-map: map.get($palette, $palette-name);
+  $hue: map.get($palette-props-map, 'hue');
+  $chroma-max: map.get($palette-props-map, 'chroma-max');
+  $luminance-at-chroma-max: map.get(
+    $palette-props-map,
+    'luminance-at-chroma-max'
+  );
+
+  @return create-color(
+    $luminance,
+    $hue,
+    $chroma-max,
+    $luminance-at-chroma-max,
+    $opacity
+  );
+}
+
+@function get-color-from-role($role-name, $opacity: 1, $theme: 'dark') {
+  $role-props-map: map.get($role, $role-name);
+  $luminance: map.get($role-props-map, $theme);
+  $palette-name: map.get($role-props-map, 'palette');
+  $palette-props-map: map.get($palette, $palette-name);
+  $hue: map.get($palette-props-map, 'hue');
+  $chroma-max: map.get($palette-props-map, chroma-max);
+  $luminance-at-chroma-max: map.get(
+    $palette-props-map,
+    'luminance-at-chroma-max'
+  );
+
+  @return create-color(
+    $luminance,
+    $hue,
+    $chroma-max,
+    $luminance-at-chroma-max,
+    $opacity
+  );
+}
+
+$palette: (
+  'pink': (
+    'hue': 0,
+    'chroma-max': 0.27,
+    'luminance-at-chroma-max': 60,
+  ),
+  'pale-pink': (
+    'hue': 0,
+    'chroma-max': 0.1,
+    'luminance-at-chroma-max': 60,
+  ),
+  'pink-grey': (
+    'hue': 0,
+    'chroma-max': 0.025,
+    'luminance-at-chroma-max': 60,
+  ),
+  'grey': (
+    'hue': 0,
+    'chroma-max': 0,
+    'luminance-at-chroma-max': 60,
+  ),
+  'purple': (
+    'hue': 300,
+    'chroma-max': 0.27,
+    'luminance-at-chroma-max': 60,
+  ),
+  'red': (
+    'hue': 30,
+    'chroma-max': 0.26,
+    'luminance-at-chroma-max': 60,
+  ),
+);
+$role: (
+  'primary': (
+    'palette': 'pink',
+    'light': 40,
+    'dark': 80,
+  ),
+  'primary-container': (
+    'palette': 'pink',
+    'light': 90,
+    'dark': 30,
+  ),
+  'on-primary': (
+    'palette': 'pink',
+    'light': 100,
+    'dark': 20,
+  ),
+  'on-primary-container': (
+    'palette': 'pink',
+    'light': 10,
+    'dark': 90,
+  ),
+  'inverse-primary': (
+    'palette': 'pink',
+    'light': 80,
+    'dark': 40,
+  ),
+  'secondary': (
+    'palette': 'pale-pink',
+    'light': 40,
+    'dark': 80,
+  ),
+  'secondary-container': (
+    'palette': 'pale-pink',
+    'light': 90,
+    'dark': 30,
+  ),
+  'on-secondary': (
+    'palette': 'pale-pink',
+    'light': 100,
+    'dark': 20,
+  ),
+  'on-secondary-container': (
+    'palette': 'pale-pink',
+    'light': 10,
+    'dark': 90,
+  ),
+  'tertiary': (
+    'palette': 'purple',
+    'light': 40,
+    'dark': 80,
+  ),
+  'tertiary-container': (
+    'palette': 'purple',
+    'light': 90,
+    'dark': 30,
+  ),
+  'on-tertiary': (
+    'palette': 'purple',
+    'light': 100,
+    'dark': 20,
+  ),
+  'on-tertiary-container': (
+    'palette': 'purple',
+    'light': 10,
+    'dark': 90,
+  ),
+  'surface': (
+    'palette': 'grey',
+    'light': 98,
+    'dark': 6,
+  ),
+  'surface-dim': (
+    'palette': 'grey',
+    'light': 87,
+    'dark': 6,
+  ),
+  'surface-bright': (
+    'palette': 'grey',
+    'light': 98,
+    'dark': 24,
+  ),
+  'surface-container-lowest': (
+    'palette': 'grey',
+    'light': 100,
+    'dark': 4,
+  ),
+  'surface-container-low': (
+    'palette': 'grey',
+    'light': 96,
+    'dark': 10,
+  ),
+  'surface-container': (
+    'palette': 'grey',
+    'light': 94,
+    'dark': 12,
+  ),
+  'surface-container-high': (
+    'palette': 'grey',
+    'light': 92,
+    'dark': 17,
+  ),
+  'surface-container-highest': (
+    'palette': 'grey',
+    'light': 90,
+    'dark': 22,
+  ),
+  'surface-variant': (
+    'palette': 'pink-grey',
+    'light': 90,
+    'dark': 30,
+  ),
+  'on-surface': (
+    'palette': 'grey',
+    'light': 10,
+    'dark': 90,
+  ),
+  'on-surface-variant': (
+    'palette': 'pink-grey',
+    'light': 30,
+    'dark': 80,
+  ),
+  'inverse-surface': (
+    'palette': 'grey',
+    'light': 20,
+    'dark': 90,
+  ),
+  'inverse-on-surface': (
+    'palette': 'grey',
+    'light': 95,
+    'dark': 20,
+  ),
+  'background': (
+    'palette': 'grey',
+    'light': 98,
+    'dark': 6,
+  ),
+  'on-background': (
+    'palette': 'grey',
+    'light': 10,
+    'dark': 90,
+  ),
+  'error': (
+    'palette': 'red',
+    'light': 40,
+    'dark': 80,
+  ),
+  'error-container': (
+    'palette': 'red',
+    'light': 90,
+    'dark': 30,
+  ),
+  'on-error': (
+    'palette': 'red',
+    'light': 100,
+    'dark': 20,
+  ),
+  'on-error-container': (
+    'palette': 'red',
+    'light': 10,
+    'dark': 90,
+  ),
+  'outline': (
+    'palette': 'grey',
+    'light': 50,
+    'dark': 60,
+  ),
+  'outline-variant': (
+    'palette': 'pink-grey',
+    'light': 80,
+    'dark': 30,
+  ),
+  'shadow': (
+    'palette': 'grey',
+    'light': 0,
+    'dark': 0,
+  ),
+  'surface-tint-color': (
+    'palette': 'pink',
+    'light': 40,
+    'dark': 80,
+  ),
+  'scrim': (
+    'palette': 'grey',
+    'light': 0,
+    'dark': 0,
+  ),
+);

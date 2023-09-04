@@ -1,0 +1,198 @@
+@use 'sass:map';
+@use './color';
+@use './layout';
+@use './typography';
+
+@mixin scrollbar() {
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+
+    &-track {
+      background-color: color.get-color-from-role('surface-container-highest');
+    }
+
+    &-thumb {
+      background-color: color.get-color-from-role('outline');
+    }
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  @include layout.lt-bp('md') {
+    @include typography.get-type-from-role('body', 'sm');
+  }
+
+  @include layout.lt-bp('sm') {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  @include typography.get-type-from-role('body');
+
+  overflow: hidden;
+
+  margin: 0;
+
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-weight: 400;
+  color: color.get-color-from-role('on-surface');
+  word-break: keep-all;
+  overflow-wrap: break-word;
+
+  background-color: color.get-color-from-role('background');
+}
+
+@for $i from 1 through 6 {
+  h#{$i} {
+    $role-name: 'heading-' + #{$i};
+
+    @include layout.lt-bp('md') {
+      @include typography.get-type-from-role($role-name, 'sm', true);
+    }
+
+    @include typography.get-type-from-role($role-name, 'lg', true);
+
+    margin-block: 0.5em;
+
+    font-weight: 700;
+    text-wrap: balance;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+}
+
+p {
+  @include layout.lt-bp('md') {
+    @include typography.get-type-from-role('body', 'sm');
+
+    max-width: 93ch;
+  }
+
+  @include layout.lt-bp('sm') {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  @include typography.get-type-from-role('body');
+
+  max-width: 93ch;
+  margin-block: 0.5em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+a {
+  color: color.get-color-from-role('primary');
+  text-decoration: none;
+
+  &:visited {
+    color: color.get-color-from-role('secondary');
+  }
+}
+
+li + li {
+  margin-top: 0.5em;
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd + dt {
+  margin-top: 0.5em;
+}
+
+img,
+video,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.viewport {
+  @include scrollbar;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100dvh;
+}
+
+.container {
+  @include layout.lt-bp('lg') {
+    padding-block: map.get(layout.$container-py, 'lg');
+    padding-inline: map.get(layout.$container-px, 'lg');
+  }
+
+  @include layout.lt-bp('md') {
+    padding-block: map.get(layout.$container-py, 'md');
+    padding-inline: map.get(layout.$container-px, 'md');
+  }
+
+  @include layout.lt-bp('sm') {
+    padding-block: map.get(layout.$container-py, 'sm');
+    padding-inline: map.get(layout.$container-px, 'sm');
+  }
+
+  box-sizing: content-box;
+  max-width: map.get(layout.$bp, 'lg');
+  margin-inline: auto;
+  padding-block: map.get(layout.$container-py, 'xl');
+  padding-inline: map.get(layout.$container-px, 'xl');
+}
+
+.table,
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, max-content) minmax(15.5ch, 1fr);
+  row-gap: 0.5em;
+  column-gap: 1.5em;
+
+  &--col {
+    @for $i from 3 through 8 {
+      &-#{$i} {
+        grid-template-columns: repeat($i - 1, max-content) minmax(15.5ch, 1fr);
+      }
+    }
+  }
+
+  &--numbering {
+    counter-reset: table-counter;
+  }
+
+  .header {
+    font-weight: 700;
+  }
+
+  .number::before {
+    content: counter(table-counter);
+    counter-increment: table-counter;
+  }
+
+  > * > * + * {
+    margin-top: 0.25em;
+  }
+}
+
+.table {
+  @include layout.lt-bp('md') {
+    padding: 1rem;
+  }
+
+  @include scrollbar;
+
+  overflow-x: auto;
+
+  width: fit-content;
+  max-width: 100%;
+  padding: 2rem;
+
+  background-color: color.get-color-from-role('surface-container-high');
+}

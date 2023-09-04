@@ -1,0 +1,67 @@
+@use 'sass:list';
+@use 'sass:map';
+
+$bp: (
+  sm: 20rem,
+  md: 40rem,
+  lg: 60rem,
+  xl: 100rem,
+);
+$bp-list: (
+  map.get($bp, 'sm'),
+  map.get($bp, 'md'),
+  map.get($bp, 'lg'),
+  map.get($bp, 'xl')
+);
+$container-px: (
+  sm: 1.5rem,
+  md: 2rem,
+  lg: 2.5rem,
+  xl: 5rem,
+);
+$container-py: (
+  sm: 2rem,
+  md: 2rem,
+  lg: 2.5rem,
+  xl: 2.5rem,
+);
+
+@mixin eq-bp($key) {
+  $bp-val-min: map.get($bp, $key);
+  $bp-val-max-idx: list.index($bp-list, $bp-val-min) + 1;
+  $bp-val-max: list.nth($bp-list, $bp-val-max-idx);
+
+  @at-root {
+    @media (width < $bp-val-max) and (width >= $bp-val-min) {
+      & {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin gt-bp($key) {
+  $bp-val-min: map.get($bp, $key);
+
+  @at-root {
+    @media (width >= $bp-val-min) {
+      & {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin lt-bp($key) {
+  $bp-val-min: map.get($bp, $key);
+  $bp-val-max-idx: list.index($bp-list, $bp-val-min) + 1;
+  $bp-val-max: list.nth($bp-list, $bp-val-max-idx);
+
+  @at-root {
+    @media (width < $bp-val-max) {
+      & {
+        @content;
+      }
+    }
+  }
+}
