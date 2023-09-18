@@ -11,19 +11,38 @@
     <link rel="stylesheet" href="../../../../style/style.css" />
     <link rel="stylesheet" href="../../../../plugin/prism/prism.css" />
     <script src="../../../../plugin/prism/prism.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@latest/lib/p5.min.js"></script>
-    <script src="./script/sketch.js" defer></script>
+    <script src="./script/alertPromptConfirm.js"></script>
+    <!-- <script>
+        let userName = prompt('당신의 이름은 무엇입니까?', '홍길동');
+        let isUserNameCorrect = confirm(
+          '당신의 이름이 ' + userName + '이 맞습니까?'
+        );
+        if (isUserNameCorrect == true) {
+          document.getElementById('user-name-gose-here').textContent =
+            '환영합니다. ' + userName + '님';
+        }
+      </script> -->
   </head>
   <body>
     <div class="viewport">
       <main>
+        <header>
+          <section>
+            <div class="container">
+              <h1>이은솔 W2 Sketch4</h1>
+            </div>
+          </section>
+        </header>
         <section>
-          <div class="container"></div>
+          <div class="container">
+            <h2 id="user-name-gose-here"></h2>
+          </div>
         </section>
       </main>
       <footer>
         <section>
           <div class="container">
+            <h2>코드</h2>
             <h6>index.html</h6>
             <pre
               class="line-numbers"
@@ -33,5 +52,15 @@
         </section>
       </footer>
     </div>
+    <script>
+      let userName = prompt('당신의 이름은 무엇입니까?', '홍길동');
+      let isUserNameCorrect = confirm(
+        '당신의 이름이 ' + userName + '이 맞습니까?'
+      );
+      if (isUserNameCorrect == true) {
+        document.getElementById('user-name-gose-here').textContent =
+          '환영합니다. ' + userName + '님';
+      }
+    </script>
   </body>
 </html>
