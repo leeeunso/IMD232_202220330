@@ -8,8 +8,8 @@ function setup() {
     windowHeight,
     aspectRatio
   );
-  setCanvasContainer('p5-canvas', 3, 2, true);
-  //   createCanvas(canvasDimensions.w, canvasDimensions.h);
+
+  createCanvas(canvasDimensions.w, canvasDimensions.h);
   background('#F0F0EA');
 }
 
@@ -213,6 +213,16 @@ function draw() {
   ellipse(270, 365, 50, 50);
   fill(75, 107, 100);
   ellipse(300, 365, 50, 50);
+  fill(255, 255, 255, 170);
+  rect(10, 125, 120, 290);
+  fill(255, 255, 255, 190);
+  rect(10, 415, 30, 30, 0, 0, 30, 30);
+  fill(255, 255, 255, 190);
+  rect(40, 415, 30, 30, 0, 0, 30, 30);
+  fill(255, 255, 255, 190);
+  rect(70, 415, 30, 30, 0, 0, 30, 30);
+  fill(255, 255, 255, 190);
+  rect(100, 415, 30, 30, 0, 0, 30, 30);
 }
 function windowResized() {
   let canvasDimensions = getCanvasDimensions(
