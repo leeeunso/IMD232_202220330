@@ -1,33 +1,10 @@
-let originalWidth = 1000;
-let originalHeight = 667;
-let aspectRatio = originalWidth / originalHeight;
-
 function setup() {
-  let canvasDimensions = getCanvasDimensions(
-    windowWidth,
-    windowHeight,
-    aspectRatio
-  );
-
-  createCanvas(canvasDimensions.w, canvasDimensions.h);
-  background('#F0F0EA');
+  setCanvasContainer('p5-canvas', 3, 2, true);
+  background('white');
 }
 
 function draw() {
   background(248, 217, 178);
-
-  let scaleFactor = min(width / originalWidth, height / originalHeight);
-  translate(
-    (width - originalWidth * scaleFactor) / 2,
-    (height - originalHeight * scaleFactor) / 2
-  );
-
-  let aspectRatio = originalWidth / originalHeight;
-
-  scale(scaleFactor);
-
-  // function draw() {
-  //   background(248, 217, 178);
 
   //   루프로 인해 아래서 적용한 설정이 타고 넘어오는 것을 방지하기 위해 초기화
   rectMode(CORNER);
@@ -38,7 +15,9 @@ function draw() {
   strokeWeight(0);
   //바닥
   fill(65, 127, 100);
+
   rect(0, 470, 1000, 700);
+
   fill('#84624c');
   rect(0, 450, 1000, 20);
 
@@ -223,26 +202,4 @@ function draw() {
   rect(70, 415, 30, 30, 0, 0, 30, 30);
   fill(255, 255, 255, 190);
   rect(100, 415, 30, 30, 0, 0, 30, 30);
-}
-function windowResized() {
-  let canvasDimensions = getCanvasDimensions(
-    windowWidth,
-    windowHeight,
-    aspectRatio
-  );
-  resizeCanvas(canvasDimensions.w, canvasDimensions.h);
-}
-
-function getCanvasDimensions(w, h, ratio) {
-  if (w / h > ratio) {
-    return {
-      w: h * ratio,
-      h: h,
-    };
-  } else {
-    return {
-      w: w,
-      h: w / ratio,
-    };
-  }
 }
